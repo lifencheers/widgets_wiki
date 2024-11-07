@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Timer</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; }
+        #timer { font-size: 3em; margin-bottom: 20px; }
+        button { font-size: 1em; padding: 10px 20px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <div>
+        <div id="timer">25:00</div>
+        <button onclick="startTimer()">Start</button>
+        <button onclick="stopTimer()">Stop</button>
+        <button onclick="resetTimer()">Reset</button>
+    </div>
+
+    <script>
+        let timer;
+        let isRunning = false;
+        let timeLeft = 25 * 60; // 25 minutes in seconds
+
+        function startTimer() {
+            if (!isRunning) {
+                isRunning = true;
+                timer = setInterval(() => {
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        isRunning = false;
+                        alert("Pomodoro session complete!");
+                    } else {
+                        timeLeft--;
+                        displayTime();
+                    }
+                }, 1000);
+            }
+        }
+
+        function stopTimer() {
+            clearInterval(timer);
+            isRunning = false;
+        }
+
+        function resetTimer() {
+            stopTimer();
+            timeLeft = 25 * 60;
+            displayTime();
+        }
+
+        function displayTime() {
+            const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+            const seconds = (timeLeft % 60).toString().padStart(2, '0');
+            document.getElementById("timer").textContent = `${minutes}:${seconds}`;
+        }
+
+        displayTime();
+    </script>
+</body>
+</html>
